@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="es" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Guía Interactiva de Git y GitHub</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Chosen Palette: Warm Neutrals & Teal Accent -->
+    <!-- Application Structure Plan: La aplicación está diseñada como una experiencia de aprendizaje de una sola página con una barra de navegación lateral fija para un acceso rápido a las secciones. La estructura se divide en un resumen teórico y una sección de flujo de trabajo práctico. La sección teórica introduce conceptos clave como la diferencia entre Git y GitHub. La parte central y más importante es un simulador de terminal de paso a paso. Este enfoque fue elegido para desmitificar los comandos de la línea de comandos de Git, mostrando cada acción y su efecto conceptual en un entorno controlado. Esta estructura facilita el aprendizaje no lineal, permitiendo al usuario volver a revisar cualquier sección o comando. -->
+    <!-- Visualization & Content Choices: Para los conceptos teóricos, se utilizan diagramas HTML y CSS simples (Objetivo: Organizar, Método: Diagramas visuales, Interacción: Nula, son elementos estáticos para comprensión). Para el flujo de trabajo práctico, el objetivo es demostrar un proceso (Objetivo: Explicar/Demostrar, Método: Simulador de terminal paso a paso con paneles dinámicos, Interacción: Clic en el botón "Siguiente paso"). Este enfoque permite a los usuarios aprender haciendo, sin necesidad de configurar un repositorio real. Los comandos y sus explicaciones se presentan uno a uno para evitar abrumar al estudiante. Se confirma que no se utilizan gráficos SVG ni la librería Mermaid JS. -->
+    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&family=Roboto+Mono:wght@400;500&display=swap');
+        .font-mono {
+            font-family: 'Roboto Mono', monospace;
+        }
+        .section-target {
+            scroll-margin-top: 4rem;
+        }
+        .nav-link.active {
+            background-color: #14B8A6;
+            color: white;
+        }
+        .code-block {
+            background-color: #2d3748;
+            color: #e2e8f0;
+            border-radius: 0.5rem;
+            padding: 1rem;
+            overflow-x: auto;
+            font-size: 0.875rem;
+        }
+        .code-block .comment { color: #a0aec0; }
+        .code-block .command { color: #90cdf4; }
+        .code-block .path { color: #faf089; }
+        .code-block .output { color: #f6ad55; }
+        .terminal {
+            background-color: #1a202c;
+            color: #e2e8f0;
+            border-radius: 0.5rem;
+            padding: 1rem;
+            font-family: 'Roboto Mono', monospace;
+            height: 300px;
+            overflow-y: auto;
+        }
+    </style>
+</head>
+<body class="bg-gray-50 text-gray-800">
+
+    <div class="flex">
+        <aside class="sticky top-0 h-screen w-64 bg-white shadow-lg p-6 hidden md:block">
+            <h1 class="text-2xl font-bold text-teal-600 mb-8">Git & GitHub</h1>
+            <nav id="desktop-nav" class="space-y-2">
+            </nav>
+        </aside>
+
+        <main class="flex-1 p-4 sm:p-6 md:p-10">
+            
+            <header class="bg-teal-500 text-white p-8 rounded-xl shadow-2xl mb-12 text-center">
+                <h1 class="text-4xl md:text-5xl font-bold mb-2">Comprendiendo Git y GitHub</h1>
+                <p class="text-xl text-teal-100">La base de todo trabajo en equipo.</p>
+            </header>
+
+            <div id="content-sections">
+                
+                <section id="introduccion" class="section-target mb-16">
+                    <h2 class="text-3xl font-bold mb-6 text-gray-700">¿Qué son y por qué son importantes?</h2>
+                    <div class="bg-white p-8 rounded-lg shadow-md space-y-4 text-lg">
+                        <p><strong class="text-teal-600">Git es un sistema de control de versiones.</strong> Es como una "máquina del tiempo" para tu código. Te permite registrar cada cambio que haces, volver a versiones anteriores si algo sale mal y trabajar en nuevas características sin afectar el proyecto principal.</p>
+                        <p><strong class="text-teal-600">GitHub es una plataforma de alojamiento de repositorios.</strong> Es el lugar donde subes tus proyectos para que otros los vean y colaboren contigo. Piensa en GitHub como un Google Drive pero hecho para código, con funcionalidades extra para trabajo en equipo.</p>
+                        <div class="flex flex-col md:flex-row items-center justify-center gap-6 mt-8">
+                            <div class="w-full md:w-1/2 bg-gray-100 p-6 rounded-lg text-center shadow-inner">
+                                <h3 class="font-bold text-lg text-teal-700">Git</h3>
+                                <p>Software local en tu computadora.</p>
+                                <p>Controla versiones de forma individual.</p>
+                            </div>
+                            <div class="w-full md:w-1/2 bg-gray-100 p-6 rounded-lg text-center shadow-inner">
+                                <h3 class="font-bold text-lg text-teal-700">GitHub</h3>
+                                <p>Servicio en la nube (web).</p>
+                                <p>Permite colaborar en proyectos.</p>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <section id="flujo-de-trabajo" class="section-target mb-16">
+                    <h2 class="text-3xl font-bold mb-6 text-gray-700">Flujo de Trabajo Básico (Paso a Paso)</h2>
+                    <div class="bg-white p-8 rounded-lg shadow-md">
+                        <p class="text-lg mb-6">Sigue esta simulación para entender el proceso completo, desde crear un proyecto hasta subirlo a GitHub.</p>
+                        
+                        <div class="grid md:grid-cols-2 gap-6">
+                            <div class="md:col-span-2">
+                                <div class="terminal" id="terminal-output">
+                                    <span>&gt; Simulación lista. Haz clic en "Siguiente paso" para empezar.</span>
+                                </div>
+                            </div>
+                            <div class="bg-gray-100 p-6 rounded-lg shadow-inner">
+                                <h3 class="font-bold text-lg mb-2 text-teal-700">Acción</h3>
+                                <p class="text-sm text-gray-600" id="step-description">Haz clic para comenzar el flujo de trabajo de Git.</p>
+                                <p class="font-mono mt-4 text-sm" id="step-command"></p>
+                            </div>
+                             <div class="bg-gray-100 p-6 rounded-lg shadow-inner">
+                                <h3 class="font-bold text-lg mb-2 text-teal-700">Estado del Proyecto</h3>
+                                <div id="project-state" class="text-sm space-y-2">
+                                    <div class="bg-blue-200 text-blue-800 p-2 rounded-md">💻 Local: Sin repositorio Git.</div>
+                                </div>
+                            </div>
+                            <div class="md:col-span-2 text-center mt-4">
+                                <button id="next-step-btn" class="bg-teal-500 hover:bg-teal-600 text-white font-bold py-2 px-6 rounded-xl transition-colors">Siguiente paso</button>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <section id="comandos" class="section-target mb-16">
+                    <h2 class="text-3xl font-bold mb-6 text-gray-700">Comandos Clave con Ejemplos</h2>
+                    <div class="bg-white p-8 rounded-lg shadow-md space-y-8">
+                        
+                        <div class="flex flex-col md:flex-row gap-6">
+                            <div class="md:w-1/2">
+                                <h4 class="font-bold text-teal-600 text-xl font-mono mb-1">git init</h4>
+                                <p>Inicializa un nuevo repositorio Git local en la carpeta actual.</p>
+                            </div>
+                            <div class="md:w-1/2">
+                                <div class="code-block">
+<pre><code><span class="command">git init</span></code></pre>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="flex flex-col md:flex-row gap-6">
+                            <div class="md:w-1/2">
+                                <h4 class="font-bold text-teal-600 text-xl font-mono mb-1">git add</h4>
+                                <p>Añade uno o más archivos al área de preparación para el próximo commit.</p>
+                                <ul class="list-disc list-inside mt-2 text-sm text-gray-600">
+                                    <li>Añadir un archivo específico: <code class="font-mono">git add index.html</code></li>
+                                    <li>Añadir todos los archivos nuevos o modificados: <code class="font-mono">git add .</code></li>
+                                </ul>
+                            </div>
+                            <div class="md:w-1/2">
+                                <div class="code-block">
+<pre><code><span class="command">git add</span> <span class="path">index.html</span>
+<span class="comment"># o</span>
+<span class="command">git add</span> <span class="path">.</span></code></pre>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="flex flex-col md:flex-row gap-6">
+                            <div class="md:w-1/2">
+                                <h4 class="font-bold text-teal-600 text-xl font-mono mb-1">git commit</h4>
+                                <p>Guarda los cambios preparados en el historial del repositorio con un mensaje descriptivo.</p>
+                            </div>
+                            <div class="md:w-1/2">
+                                <div class="code-block">
+<pre><code><span class="command">git commit</span> <span class="path">-m</span> <span class="output">"feat: añadir estructura inicial del proyecto"</span></code></pre>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="flex flex-col md:flex-row gap-6">
+                            <div class="md:w-1/2">
+                                <h4 class="font-bold text-teal-600 text-xl font-mono mb-1">git status</h4>
+                                <p>Muestra el estado de los archivos y los cambios pendientes en el repositorio.</p>
+                            </div>
+                            <div class="md:w-1/2">
+                                <div class="code-block">
+<pre><code><span class="command">git status</span></code></pre>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="flex flex-col md:flex-row gap-6">
+                            <div class="md:w-1/2">
+                                <h4 class="font-bold text-teal-600 text-xl font-mono mb-1">git push</h4>
+                                <p>Sube los commits locales al repositorio remoto (GitHub).</p>
+                            </div>
+                            <div class="md:w-1/2">
+                                <div class="code-block">
+<pre><code><span class="command">git push</span> <span class="path">origin main</span></code></pre>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="flex flex-col md:flex-row gap-6">
+                            <div class="md:w-1/2">
+                                <h4 class="font-bold text-teal-600 text-xl font-mono mb-1">git pull</h4>
+                                <p>Descarga los cambios del repositorio remoto al repositorio local.</p>
+                            </div>
+                            <div class="md:w-1/2">
+                                <div class="code-block">
+<pre><code><span class="command">git pull</span> <span class="path">origin main</span></code></pre>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </section>
+
+                <section id="que-es-un-commit" class="section-target mb-16">
+                    <h2 class="text-3xl font-bold mb-6 text-gray-700">¿Qué es un Commit?</h2>
+                    <div class="bg-white p-8 rounded-lg shadow-md text-lg space-y-4">
+                        <p>Un **commit** es una instantánea de tu proyecto en un momento dado. Cada vez que haces un commit, Git toma una "foto" de tus archivos en ese estado y la almacena en tu historial. Piénsalo como guardar el progreso en un videojuego.</p>
+                        <p>Un buen mensaje de commit es clave. Debe explicar de forma clara, concisa y en menos de 50 caracteres qué cambio se hizo. Por ejemplo: "feat: añadir navegación principal" o "fix: corregir error de estilo".</p>
+                    </div>
+                </section>
+
+                <footer class="text-center mt-12 py-6 border-t">
+                    <p class="text-gray-600">¡Explora, experimenta y colabora!</p>
+                    <p class="text-gray-500 mt-2">Guía interactiva creada con ❤️ para la clase de Desarrollo Web.</p>
+                </footer>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const sections = [
+                { id: 'introduccion', title: 'Introducción' },
+                { id: 'flujo-de-trabajo', title: 'Flujo de Trabajo' },
+                { id: 'comandos', title: 'Comandos Clave' },
+                { id: 'que-es-un-commit', title: '¿Qué es un Commit?' }
+            ];
+
+            const navContainer = document.getElementById('desktop-nav');
+            sections.forEach(section => {
+                const link = document.createElement('a');
+                link.href = `#${section.id}`;
+                link.textContent = section.title;
+                link.classList.add('nav-link', 'block', 'px-4', 'py-2', 'rounded-md', 'text-gray-700', 'hover:bg-teal-100', 'transition-colors');
+                navContainer.appendChild(link);
+            });
+
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    const id = entry.target.getAttribute('id');
+                    const navLink = document.querySelector(`.nav-link[href="#${id}"]`);
+                    if (entry.isIntersecting) {
+                        document.querySelectorAll('.nav-link').forEach(link => link.classList.remove('active'));
+                        navLink.classList.add('active');
+                    }
+                });
+            }, { rootMargin: '-30% 0px -70% 0px', threshold: 0 });
+
+            document.querySelectorAll('.section-target').forEach(section => {
+                observer.observe(section);
+            });
+
+            const terminalOutput = document.getElementById('terminal-output');
+            const stepDescription = document.getElementById('step-description');
+            const stepCommand = document.getElementById('step-command');
+            const projectState = document.getElementById('project-state');
+            const nextStepBtn = document.getElementById('next-step-btn');
+
+            let currentStep = 0;
+            const steps = [
+                {
+                    description: 'Comenzamos en la carpeta de nuestro proyecto. Inicializamos un repositorio Git local.',
+                    command: 'git init',
+                    output: `Inicializando repositorio Git vacío en C:/Users/Usuario/MiProyecto/.git/`,
+                    state: '<div class="bg-green-200 text-green-800 p-2 rounded-md">💻 Local: Repositorio Git inicializado.</div><div class="bg-yellow-200 text-yellow-800 p-2 rounded-md">📂 Archivos: Sin cambios rastreados.</div>'
+                },
+                {
+                    description: 'Creamos un archivo llamado <span class="font-mono">index.html</span> y verificamos su estado.',
+                    command: 'git status',
+                    output: `En la rama principal
+
+No hay commits todavía
+
+Archivos sin seguimiento:
+  (usa "git add <archivo>..." para incluir lo que será confirmado)
+  index.html`,
+                    state: '<div class="bg-green-200 text-green-800 p-2 rounded-md">💻 Local: Repositorio Git inicializado.</div><div class="bg-yellow-200 text-yellow-800 p-2 rounded-md">📂 Archivos: 1 archivo sin seguimiento.</div>'
+                },
+                {
+                    description: 'Añadimos el archivo al "área de preparación" para el próximo commit.',
+                    command: 'git add .',
+                    output: '',
+                    state: '<div class="bg-green-200 text-green-800 p-2 rounded-md">💻 Local: Repositorio Git inicializado.</div><div class="bg-blue-200 text-blue-800 p-2 rounded-md">📂 Archivos: 1 archivo preparado para commit.</div>'
+                },
+                {
+                    description: 'Ahora sí, creamos nuestro primer commit con un mensaje descriptivo.',
+                    command: 'git commit -m "feat: primer commit y estructura basica"',
+                    output: `[master (commit raíz) 8f3b145] feat: primer commit y estructura basica
+ 1 file changed, 10 insertions(+)
+ create mode 100644 index.html`,
+                    state: '<div class="bg-green-200 text-green-800 p-2 rounded-md">💻 Local: ¡1 commit creado!</div><div class="bg-gray-200 text-gray-800 p-2 rounded-md">📂 Archivos: Sin cambios pendientes.</div>'
+                },
+                 {
+                    description: 'Creamos una cuenta en GitHub y un nuevo repositorio. Ahora, conectamos nuestro proyecto local con ese repositorio remoto.',
+                    command: 'git remote add origin https://github.com/usuario/mi-proyecto.git',
+                    output: '',
+                    state: '<div class="bg-green-200 text-green-800 p-2 rounded-md">💻 Local: ¡1 commit creado!</div><div class="bg-teal-200 text-teal-800 p-2 rounded-md">☁️ Remoto: Conectado a GitHub.</div>'
+                },
+                {
+                    description: '¡Subimos nuestros commits locales al repositorio en GitHub!',
+                    command: 'git push -u origin master',
+                    output: `Contando objetos: 3, hecho.
+Escribiendo objetos: 100% (3/3), 221 bytes | 221.00 KB/s, listo.
+Total 3 (delta 0), reutilizado 0 (delta 0), embalado 0 (delta 0)
+remote: Creando un pull request para 'master'...
+A https://github.com/usuario/mi-proyecto.git
+   8f3b145..f11a43a  master -> master`,
+                    state: '<div class="bg-green-200 text-green-800 p-2 rounded-md">💻 Local: Repositorio actualizado.</div><div class="bg-teal-200 text-teal-800 p-2 rounded-md">☁️ Remoto: ¡Sincronizado con local!</div>'
+                },
+                 {
+                    description: '¡Genial! Ya tienes tu proyecto en GitHub. Ya puedes seguir trabajando, haciendo commits y subiéndolos con `git push`.',
+                    command: '',
+                    output: '',
+                    state: '<div class="bg-green-200 text-green-800 p-2 rounded-md">💻 Local: ¡Listo para seguir!</div><div class="bg-teal-200 text-teal-800 p-2 rounded-md">☁️ Remoto: ¡Listo para colaborar!</div>'
+                }
+            ];
+
+            nextStepBtn.addEventListener('click', () => {
+                if (currentStep < steps.length) {
+                    const step = steps[currentStep];
+                    stepDescription.textContent = step.description;
+                    stepCommand.textContent = step.command;
+                    
+                    const newOutput = document.createElement('div');
+                    newOutput.innerHTML = `<span class="text-green-400">~/Desktop/MiProyecto <span class="text-gray-400">main</span></span> <span class="text-white">$</span> <span class="text-blue-300">${step.command}</span><br>${step.output}`;
+                    terminalOutput.innerHTML = '';
+                    terminalOutput.appendChild(newOutput);
+                    terminalOutput.scrollTop = terminalOutput.scrollHeight;
+                    
+                    projectState.innerHTML = step.state;
+                    currentStep++;
+                }
+                if (currentStep >= steps.length) {
+                    nextStepBtn.textContent = 'Fin de la simulación';
+                    nextStepBtn.disabled = true;
+                    terminalOutput.innerHTML += '<br><br><span>&gt; Simulación completada. ¡Inténtalo tú mismo!</span>';
+                }
+            });
+        });
+    </script>
+
+</body>
+</html>
